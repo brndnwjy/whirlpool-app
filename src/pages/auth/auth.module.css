@@ -1,0 +1,88 @@
+.main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6f6f6;
+}
+
+.auth-card {
+  height: min-content;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.label {
+  color: #252525;
+}
+
+.options {
+  margin: 30px 0;
+}
+
+.options h6 {
+  color: #848484;
+  text-align: center;
+  border-bottom: 1px solid #848484;
+  font-weight: 400;
+  line-height: 0.1em;
+}
+
+.options h6 span {
+  background: #fff;
+  padding: 0 30px;
+}
+
+.btn-green {
+  height: 50px;
+  background-color: #39b3ca;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #39b3ca;
+  border-radius: 25px;
+}
+
+.btn-white {
+  transition: 0.5s;
+  height: 50px;
+  background-color: #ffffff;
+  color: #39b3ca;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #39b3ca;
+  border-radius: 25px;
+}
+
+.btn-green:focus,
+.btn-white:focus {
+  outline: none;
+}
+
+.btn-white:hover {
+  transition: 0.5s;
+  background-color: #39b3ca;
+  color: #ffffff;
+}
+
+.title,
+.link,
+.link:hover {
+  text-decoration: none;
+  color: #39b3ca;
+}
+
+@media only screen and (max-width: 600px) {
+  .auth-card {
+    height: 100vh;
+    box-shadow: none;
+  }
+}
