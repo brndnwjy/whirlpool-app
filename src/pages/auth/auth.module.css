@@ -20,8 +20,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.forgot-card {
+    min-height: 50vh;
+}
+
 .label {
-  color: #252525;
+  color: #848484;
 }
 
 .options {

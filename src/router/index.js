@@ -5,7 +5,9 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import Forgot from "../pages/auth/forgot";
 import Login from "../pages/auth/login";
+import Register from "../pages/auth/register";
 
 const ScrollToTop = ({ children }) => {
   const { pathname } = useLocation();
@@ -23,6 +25,8 @@ const Router = () => {
       <ScrollToTop>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot" element={<Forgot />} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>

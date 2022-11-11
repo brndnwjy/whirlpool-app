@@ -2,13 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../auth.module.css";
 
-const Login = () => {
+const Register = () => {
   return (
     <main className={styles.main}>
-      <div className={`col-12 col-md-5 ${styles["auth-card"]}`}>
-        <h3 className={`mb-3 ${styles.title}`}>Login</h3>
-        <p className="col-10 text-left">Hi, welcome back!</p>
+      <div className={`col-12 col-md-5 py-3 ${styles["auth-card"]}`}>
+        <h3 className={`mb-3 ${styles.title}`}>Register</h3>
+        <p className="col-10 text-left">Let's create your account!</p>
         <form className="col-10 d-flex flex-column">
+          <div className="form-floating mb-3">
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Name"
+              className="form-control"
+            />
+            <label htmlFor="name" className={styles.label}>Name</label>
+          </div>
+
           <div className="form-floating mb-3">
             <input
               id="email"
@@ -22,6 +33,17 @@ const Login = () => {
 
           <div className="form-floating mb-3">
             <input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="08xx-xxxx-xxxx"
+              className="form-control"
+            />
+            <label htmlFor="phone" className={styles.label}>Phone</label>
+          </div>
+
+          <div className="form-floating mb-3">
+            <input
               id="password"
               name="password"
               type="password"
@@ -31,19 +53,13 @@ const Login = () => {
             <label htmlFor="password" className={styles.label}>Password</label>
           </div>
 
-          <small className="mb-3 text-end">
-            <Link to="/forgot" className={styles.link}>
-              Forgot password?
-            </Link>
-          </small>
-
           <button type="button" className={`mb-2 ${styles["btn-green"]}`}>
-            Login
+            Register
           </button>
 
           <div className={styles.options}>
             <h6>
-              <span>Login with</span>
+              <span>Register with</span>
             </h6>
           </div>
 
@@ -52,9 +68,9 @@ const Login = () => {
           </button>
 
           <small className="text-center">
-            Don't have an account?
-            <Link to="/register" className={`m-1 ${styles.link}`}>
-              Register here
+            Already have an account?
+            <Link to="/login" className={`m-1 ${styles.link}`}>
+              Login here
             </Link>
           </small>
         </form>
@@ -63,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
