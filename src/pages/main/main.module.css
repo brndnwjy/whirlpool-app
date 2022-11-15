@@ -1,0 +1,15 @@
+.body {
+  width: 100vw;
+  height: 100vh;
+  display:flex;
+}
+
+.sidemenu {
+  height: 100vh;
+  background-color: aqua;
+}
+
+.main {
+  height: 100vh;
+  background-color: yellowgreen;
+}
