@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../auth.module.css";
+import io from "socket.io-client";
 
-const Login = ({setSocket}) => {
-  const navigate = useNavigate()
+const Login = ({ setSocket }) => {
+  const navigate = useNavigate();
   // const dispatch = useDispatch()
 
   const [loginForm, setLoginForm] = useState({
@@ -16,33 +17,39 @@ const Login = ({setSocket}) => {
   const handleInput = (e) => {
     setLoginForm({
       ...loginForm,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:4000/v1/user/login", loginForm)
-    .then((res) => {
-      console.log(res)
-      const token = res.data.data.token
-      const user = {
-        id: res.data.data.user_id,
-        name: res.data.data.fullname,
-        email: res.data.data.email,
-        phone: res.data.data.phone,
-      }
-      localStorage.setItem("token", token)
-      localStorage.setItem("user", JSON.stringify(user))
-      navigate("/test")
-      // navigate("/")
-    })
-    .catch ((err) => {
-      console.log(err)
-    })
+    axios
+      .post("http://localhost:4000/v1/user/login", loginForm)
+      .then((res) => {
+        const token = res.data.data.token;
+        const user = {
+          id: res.data.data.user_id,
+          name: res.data.data.fullname,
+          email: res.data.data.email,
+          phone: res.data.data.phone,
+        };
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        const socket = io("http://localhost:4000", {
+          query: {
+            token: token,
+          },
+        });
+        setSocket(socket);
+        navigate("/test");
+        // navigate("/")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // dispatch(login(setSocket, loginForm, navigate))
-  }
-  
+  };
+
   return (
     <main className={styles.main}>
       <div className={`col-12 col-md-5 ${styles["auth-card"]}`}>

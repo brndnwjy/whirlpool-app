@@ -1,23 +1,50 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../auth.module.css";
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const [registerForm, setRegisterForm] = useState({
+    fullname: "",
+    email: "",
+    phone: "",
+    password: ""
+  })
+
+  const handleInput = (e) => {
+    setRegisterForm({
+      ...registerForm,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios.post("http://localhost:4000/v1/user/register", registerForm)
+    .then(() => {
+      navigate("/login")
+    })
+  }
   return (
     <main className={styles.main}>
       <div className={`col-12 col-md-5 py-3 ${styles["auth-card"]}`}>
         <h3 className={`mb-3 ${styles.title}`}>Register</h3>
         <p className="col-10 text-left">Let's create your account!</p>
-        <form className="col-10 d-flex flex-column">
+        <form onSubmit={handleSubmit} className="col-10 d-flex flex-column">
           <div className="form-floating mb-3">
             <input
-              id="name"
-              name="name"
+              id="fullname"
+              name="fullname"
               type="text"
               placeholder="Name"
               className="form-control"
+              value={registerForm.fullname}
+              onChange={handleInput}
             />
-            <label htmlFor="name" className={styles.label}>Name</label>
+            <label htmlFor="fullname" className={styles.label}>Name</label>
           </div>
 
           <div className="form-floating mb-3">
@@ -27,6 +54,8 @@ const Register = () => {
               type="email"
               placeholder="Email"
               className="form-control"
+              value={registerForm.email}
+              onChange={handleInput}
             />
             <label htmlFor="email" className={styles.label}>Email</label>
           </div>
@@ -38,6 +67,8 @@ const Register = () => {
               type="tel"
               placeholder="08xx-xxxx-xxxx"
               className="form-control"
+              value={registerForm.phone}
+              onChange={handleInput}
             />
             <label htmlFor="phone" className={styles.label}>Phone</label>
           </div>
@@ -49,11 +80,13 @@ const Register = () => {
               type="password"
               placeholder="Password"
               className="form-control"
+              value={registerForm.password}
+              onChange={handleInput}
             />
             <label htmlFor="password" className={styles.label}>Password</label>
           </div>
 
-          <button type="button" className={`mb-2 ${styles["btn-green"]}`}>
+          <button type="submit" className={`mb-2 ${styles["btn-green"]}`}>
             Register
           </button>
 

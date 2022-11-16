@@ -26,7 +26,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setSocket={setSocket}/>} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
 
