@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import io from "socket.io-client";
+import swal from "sweetalert";
 
 import Forgot from "../pages/auth/forgot";
 import Login from "../pages/auth/login";
@@ -15,22 +16,42 @@ const Router = () => {
     if (!socket && token) {
       const res = io("http://localhost:4000", {
         query: {
-          token: token
-        }
+          token: token,
+        },
       });
       setSocket(res);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
+
+  const Auth = ({ children }) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      swal({
+        title: "Denied!",
+        text: `Access Denied, Please Login!`,
+        icon: "error",
+      });
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login setSocket={setSocket}/>} />
+        <Route path="/login" element={<Login setSocket={setSocket} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
 
-        <Route path="/" element={<Main socket={socket} />} />
+        <Route
+          path="/"
+          element={
+            <Auth>
+              <Main socket={socket} />
+            </Auth>
+          }
+        />
         <Route path="/test" element={<TestPage socket={socket} />} />
       </Routes>
     </BrowserRouter>

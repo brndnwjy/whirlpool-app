@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import styles from "../auth.module.css";
 
 const Register = () => {
@@ -25,6 +26,11 @@ const Register = () => {
 
     axios.post("http://localhost:4000/v1/user/register", registerForm)
     .then(() => {
+      swal({
+        title: "Registered",
+        text: "Please Login to your account",
+        icon: "success",
+      });
       navigate("/login")
     })
   }

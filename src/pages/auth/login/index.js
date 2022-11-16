@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../auth.module.css";
 import io from "socket.io-client";
+import swal from "sweetalert";
 
 const Login = ({ setSocket }) => {
   const navigate = useNavigate();
@@ -41,8 +42,12 @@ const Login = ({ setSocket }) => {
           },
         });
         setSocket(socket);
-        navigate("/test");
-        // navigate("/")
+        swal({
+          title: "Logged In",
+          text: `Welcome, ${user.name}`,
+          icon: "success",
+        });
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
