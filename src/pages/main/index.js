@@ -7,7 +7,7 @@ import swal from "sweetalert";
 import menu from "../../assets/menu.svg";
 import searchicon from "../../assets/search.svg";
 import logo from "../../assets/splash.svg";
-import avatar from "../../assets/avatar.jpeg";
+import avatar from "../../assets/dummy.jpg";
 import profile from "../../assets/profile.svg";
 import logout from "../../assets/setting.svg";
 // import fbtn from "../../assets/friend-btn.svg";
@@ -98,7 +98,7 @@ const Main = ({ socket }) => {
     setPreview([URL.createObjectURL(e.target.files[0])]);
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
 
     let formData = new FormData();
@@ -118,7 +118,7 @@ const Main = ({ socket }) => {
       formData.append("avatar", photo);
     }
 
-    axios
+    await axios
       .put(`http://localhost:4000/v1/user/${user.user_id}`, formData)
       .then((res) => {
         // alert("berhasil update")
@@ -157,6 +157,26 @@ const Main = ({ socket }) => {
       setMessage("");
     } else {
       alert("Error");
+    }
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.key === "Enter") {
+      if (socket && message && friend.user_id) {
+        socket.emit(
+          "private-msg",
+          {
+            receiver: friend.user_id,
+            msg: message,
+          },
+          (message) => {
+            setMessages((current) => [...current, message]);
+          }
+        );
+        setMessage("");
+      } else {
+        alert("Error");
+      }
     }
   };
 
@@ -391,6 +411,116 @@ const Main = ({ socket }) => {
         </aside>
       )}
 
+      {!chatActive ? (
+        <main className={`col-9 ${styles.main}`}>
+          <div className={styles.landing}>
+            <img src={logo} alt="" />
+            <h1>Whirlpool Chat</h1>
+            <h4>Choose a friend to start messaging!</h4>
+          </div>
+        </main>
+      ) : (
+        <main
+          className={
+            friendProfile
+              ? `col-6 ${styles.chatroom}`
+              : `col-9 ${styles.chatroom}`
+          }
+        >
+          <header className={styles.chatheader}>
+            <img
+              onClick={() => setFriendProfile(true)}
+              src={friend.avatar ? friend.avatar : avatar}
+              alt=""
+            />
+            <div className={styles["friend-header"]}>
+              <h4 onClick={() => setFriendProfile(true)}>
+                {friend.fullname ? friend.fullname : "Nama Teman"}
+              </h4>
+              <h6>{friend.status === 0 ? "Offline" : "Online"}</h6>
+            </div>
+          </header>
+
+          <section className={styles.chatbody}>
+            {messages &&
+              messages.map((item) =>
+                user.user_id === item.sender ? (
+                  <p className={styles["chat-right"]}>
+                    <sub>
+                      {item.created_at
+                        ? `${new Date(item.created_at).getHours()}:${new Date(
+                            item.created_at
+                          ).getMinutes()}`
+                        : item.date}{" "}
+                    </sub>
+                    {item.message}
+                  </p>
+                ) : (
+                  <p className={styles["chat-left"]}>
+                    {item.message}
+                    <sub>
+                      {item.created_at
+                        ? `${new Date(item.created_at).getHours()}:${new Date(
+                            item.created_at
+                          ).getMinutes()}`
+                        : `${new Date(item.date).getHours()}:${new Date(
+                            item.date
+                          ).getMinutes()}`}{" "}
+                    </sub>
+                  </p>
+                )
+              )}
+          </section>
+
+          <div className={styles.chatfooter}>
+            <div className={styles.chatbox}>
+              <input
+                placeholder="Type a message..."
+                type="text"
+                value={message}
+                onChange={handleChat}
+                onKeyDown={handleEnterKey}
+              />
+              <label htmlFor="fileinput" className={styles["file-btn"]}>
+                <img src={plus} alt="" />
+              </label>
+              <input id="fileinput" name="fileinput" type="file" hidden />
+              <button onClick={handleMessage} className={styles["send-btn"]}>
+                <img src={send} alt="" />
+              </button>
+            </div>
+          </div>
+        </main>
+      )}
+
+      {friendProfile && (
+        <main className={`col-3 ${styles["friend-profile"]}`}>
+          <button
+            onClick={() => setFriendProfile(false)}
+            className={styles["back-btn"]}
+          >
+            <img src={back} alt="" />
+          </button>
+
+          <div className={styles["profile-top"]}>
+            <img src={friend.avatar ? friend.avatar : avatar} alt="" />
+            <h4>{friend.fullname}</h4>
+          </div>
+
+          <div className={styles["profile-info"]}>
+            <h5 className="mb-3">Info</h5>
+            <p>{friend.phone}</p>
+            <small>phone number</small>
+            <hr className="my-3" />
+            <p>{friend.username ? `@${friend.username}` : "Not set"}</p>
+            <small>username</small>
+            <hr className="my-3" />
+            <p>{friend.bio ? friend.bio : "I'm using Whirlpool"}</p>
+            <small>Bio</small>
+          </div>
+        </main>
+      )}
+
       {/* -------------------- Sidemenu v1 -------------------- */}
       {/* <aside className={`col-3 ${styles.sidemenu}`}>
         <div className={`col-12 mb-3 ${styles.sideheader}`}>
@@ -494,111 +624,6 @@ const Main = ({ socket }) => {
           </div>
         </form>
       </aside> */}
-
-      {!chatActive ? (
-        <main className={`col-9 ${styles.main}`}>
-          <div className={styles.landing}>
-            <img src={logo} alt="" />
-            <h1>Whirlpool Chat</h1>
-            <h4>Choose a friend to start messaging!</h4>
-          </div>
-        </main>
-      ) : (
-        <main
-          className={
-            friendProfile
-              ? `col-6 ${styles.chatroom}`
-              : `col-9 ${styles.chatroom}`
-          }
-        >
-          <header className={styles.chatheader}>
-            <img onClick={() => setFriendProfile(true)} src={friend.avatar ? friend.avatar : avatar} alt="" />
-            <div className={styles["friend-header"]}>
-              <h4 onClick={() => setFriendProfile(true)}>
-                {friend.fullname ? friend.fullname : "Nama Teman"}
-              </h4>
-              <h6>{friend.status === 0 ? "Offline" : "Online"}</h6>
-            </div>
-          </header>
-
-          <section className={styles.chatbody}>
-            {messages &&
-              messages.map((item) =>
-                user.user_id === item.sender ? (
-                  <p className={styles["chat-right"]}>
-                    <sub>
-                      {item.created_at
-                        ? `${new Date(item.created_at).getHours()}:${new Date(
-                            item.created_at
-                          ).getMinutes()}`
-                        : item.date}{" "}
-                    </sub>
-                    {item.message}
-                  </p>
-                ) : (
-                  <p className={styles["chat-left"]}>
-                    {item.message}
-                    <sub>
-                      {item.created_at
-                        ? `${new Date(item.created_at).getHours()}:${new Date(
-                            item.created_at
-                          ).getMinutes()}`
-                        : `${new Date(item.date).getHours()}:${new Date(
-                            item.date
-                          ).getMinutes()}`}{" "}
-                    </sub>
-                  </p>
-                )
-              )}
-          </section>
-
-          <div className={styles.chatfooter}>
-            <div className={styles.chatbox}>
-              <input
-                placeholder="Type a message..."
-                type="text"
-                value={message}
-                onChange={handleChat}
-              />
-              <label htmlFor="fileinput" className={styles["file-btn"]}>
-                <img src={plus} alt="" />
-              </label>
-              <input id="fileinput" name="fileinput" type="file" hidden />
-              <button onClick={handleMessage} className={styles["send-btn"]}>
-                <img src={send} alt="" />
-              </button>
-            </div>
-          </div>
-        </main>
-      )}
-
-      {friendProfile && (
-        <main className={`col-3 ${styles["friend-profile"]}`}>
-          <button
-            onClick={() => setFriendProfile(false)}
-            className={styles["back-btn"]}
-          >
-            <img src={back} alt="" />
-          </button>
-
-          <div className={styles["profile-top"]}>
-            <img src={friend.avatar ? friend.avatar : avatar} alt="" />
-            <h4>{friend.fullname}</h4>
-          </div>
-
-          <div className={styles["profile-info"]}>
-            <h5 className="mb-3">Info</h5>
-            <p>{friend.phone}</p>
-            <small>phone number</small>
-            <hr className="my-3" />
-            <p>{friend.username ? `@${friend.username}` : "Not set"}</p>
-            <small>username</small>
-            <hr className="my-3" />
-            <p>{friend.bio ? friend.bio : "I'm using Whirlpool"}</p>
-            <small>Bio</small>
-          </div>
-        </main>
-      )}
 
       {/* -------------------- Main v1 -------------------- */}
       {/* <main className={`col-9 ${styles.main}`}>

@@ -1,39 +1,32 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import { useDispatch } from "react-redux";
 import styles from "../auth.module.css";
+import { register } from "../../../redux/action/user.action";
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [registerForm, setRegisterForm] = useState({
     fullname: "",
     email: "",
     phone: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const handleInput = (e) => {
     setRegisterForm({
       ...registerForm,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:4000/v1/user/register", registerForm)
-    .then(() => {
-      swal({
-        title: "Registered",
-        text: "Please Login to your account",
-        icon: "success",
-      });
-      navigate("/login")
-    })
-  }
+    dispatch(register(registerForm, navigate));
+  };
   return (
     <main className={styles.main}>
       <div className={`col-12 col-md-5 py-3 ${styles["auth-card"]}`}>
@@ -50,7 +43,9 @@ const Register = () => {
               value={registerForm.fullname}
               onChange={handleInput}
             />
-            <label htmlFor="fullname" className={styles.label}>Name</label>
+            <label htmlFor="fullname" className={styles.label}>
+              Name
+            </label>
           </div>
 
           <div className="form-floating mb-3">
@@ -63,7 +58,9 @@ const Register = () => {
               value={registerForm.email}
               onChange={handleInput}
             />
-            <label htmlFor="email" className={styles.label}>Email</label>
+            <label htmlFor="email" className={styles.label}>
+              Email
+            </label>
           </div>
 
           <div className="form-floating mb-3">
@@ -76,7 +73,9 @@ const Register = () => {
               value={registerForm.phone}
               onChange={handleInput}
             />
-            <label htmlFor="phone" className={styles.label}>Phone</label>
+            <label htmlFor="phone" className={styles.label}>
+              Phone
+            </label>
           </div>
 
           <div className="form-floating mb-3">
@@ -89,7 +88,9 @@ const Register = () => {
               value={registerForm.password}
               onChange={handleInput}
             />
-            <label htmlFor="password" className={styles.label}>Password</label>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
           </div>
 
           <button type="submit" className={`mb-2 ${styles["btn-green"]}`}>
