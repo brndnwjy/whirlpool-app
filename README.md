@@ -1,6 +1,9 @@
 # Whirlpool (Frontend)
 
 <!-- Logo -->
+<div align="center">
+<img src="./documentation/logo.svg" align="center" width="200" height="auto" />
+</div>
 
 <!-- Table of Contents -->
 ## Table of Contents
@@ -103,6 +106,37 @@ Contributions are what make the open source community such an amazing place to b
 
 <!-- Screenshoots -->
 ## Screenshoots
+<p align="center" display=flex>
+<table>
+  <tr>
+    <td><image src="./documentation/register.jpeg" alt="Register" width=100%></td>
+    <td><image src="./documentation/login.jpeg" alt="Login" width=100%/></td>
+  </tr>
+   <tr>
+    <td align="center">Register</td>
+    <td align="center">Login</td>
+  </tr>
+  
+  <tr>
+    <td><image src="./documentation/main.jpeg" alt="Main" width=100% ></td>
+    <td><image src="./documentation/profile-detail.jpeg" alt="Profile Detail" width=100%/></td>
+  </tr>
+  <tr>
+    <td align="center">Main Page</td>
+    <td align="center">Profile Detail</td>
+  </tr>
+
+  <tr>
+    <td><image src="./documentation/chat-room.jpeg" alt="Chatroom" width=100%></td>
+    <td><image src="./documentation/friend-detail.jpeg" alt="Friend Detail" width=100%></td>
+  </tr>
+  <tr>
+      <td align="center">Chatroom</td>
+      <td align="center">Friend Detail</td>
+  </tr>
+</table>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- Related Projects -->
 ## Related Project
