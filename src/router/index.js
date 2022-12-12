@@ -7,14 +7,13 @@ import Forgot from "../pages/auth/forgot";
 import Login from "../pages/auth/login";
 import Register from "../pages/auth/register";
 import Main from "../pages/main";
-import TestPage from "../pages/testpage";
 
 const Router = () => {
   const [socket, setSocket] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!socket && token) {
-      const res = io("http://localhost:4000", {
+      const res = io(`${process.env.BACKEND_APP_API_URL}`, {
         query: {
           token: token,
         },
@@ -52,7 +51,6 @@ const Router = () => {
             </Auth>
           }
         />
-        <Route path="/test" element={<TestPage socket={socket} />} />
       </Routes>
     </BrowserRouter>
   );
