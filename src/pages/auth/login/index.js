@@ -25,7 +25,7 @@ const Login = ({ setSocket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/v1/user/login", loginForm)
+      .post(`${process.env.BACKEND_APP_API_URL}/v1/user/login`, loginForm)
       .then((res) => {
         const token = res.data.data.token;
         const user = {
@@ -36,7 +36,7 @@ const Login = ({ setSocket }) => {
         };
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        const socket = io("http://localhost:4000", {
+        const socket = io(`${process.env.BACKEND_APP_API_URL}`, {
           query: {
             token: token,
           },

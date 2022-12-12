@@ -40,16 +40,18 @@ const Main = ({ socket }) => {
 
   useEffect(() => {
     const { id } = JSON.parse(localStorage.getItem("user"));
-    axios.get(`http://localhost:4000/v1/user/${id}`).then((res) => {
-      const user = res.data.data;
-      setUser(user);
-    });
+    axios
+      .get(`${process.env.BACKEND_APP_API_URL}/v1/user/${id}`)
+      .then((res) => {
+        const user = res.data.data;
+        setUser(user);
+      });
   }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:4000/v1/user/", {
+      .get(`${process.env.BACKEND_APP_API_URL}/v1/user`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -71,7 +73,7 @@ const Main = ({ socket }) => {
     setMessages([]);
     const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:4000/v1/chat/${friend.user_id}`, {
+      .get(`${process.env.BACKEND_APP_API_URL}/v1/chat/${friend.user_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -119,7 +121,10 @@ const Main = ({ socket }) => {
     }
 
     await axios
-      .put(`http://localhost:4000/v1/user/${user.user_id}`, formData)
+      .put(
+        `${process.env.BACKEND_APP_API_URL}/v1/user/${user.user_id}`,
+        formData
+      )
       .then((res) => {
         // alert("berhasil update")
         swal({
@@ -189,7 +194,9 @@ const Main = ({ socket }) => {
       dangerMode: true,
     }).then(async (confirm) => {
       if (confirm) {
-        axios.put(`http://localhost:4000/v1/user/offline/${user.user_id}`);
+        axios.put(
+          `${process.env.BACKEND_APP_API_URL}/v1/user/offline/${user.user_id}`
+        );
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("persist:data");
