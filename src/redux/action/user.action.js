@@ -5,7 +5,7 @@ export const login = (dataForm, navigate) => async (dispatch) => {
   try {
     dispatch({ type: "LOGIN_PENDING" });
     const result = await axios.post(
-      `${process.env.BACKEND_APP_API_URL}/v1/user/login`,
+      `https://whirlpool-arx.up.railway.app/v1/user/login`,
       dataForm
     );
     console.log(result)
@@ -34,7 +34,7 @@ export const login = (dataForm, navigate) => async (dispatch) => {
 export const register = (dataForm, navigate) => async (dispatch) => {
   try {
     dispatch({ type: "REGISTER_PENDING" });
-    await axios.post(`${process.env.BACKEND_APP_API_URL}/v1/user/register`, dataForm);
+    await axios.post(`https://whirlpool-arx.up.railway.app/v1/user/register`, dataForm);
     swal({
         title: "Registered",
         text: "Please Login to your account",

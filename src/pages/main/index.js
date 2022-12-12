@@ -41,7 +41,7 @@ const Main = ({ socket }) => {
   useEffect(() => {
     const { id } = JSON.parse(localStorage.getItem("user"));
     axios
-      .get(`${process.env.BACKEND_APP_API_URL}/v1/user/${id}`)
+      .get(`https://whirlpool-arx.up.railway.app/v1/user/${id}`)
       .then((res) => {
         const user = res.data.data;
         setUser(user);
@@ -51,7 +51,7 @@ const Main = ({ socket }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(`${process.env.BACKEND_APP_API_URL}/v1/user`, {
+      .get(`https://whirlpool-arx.up.railway.app/v1/user`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -73,7 +73,7 @@ const Main = ({ socket }) => {
     setMessages([]);
     const token = localStorage.getItem("token");
     axios
-      .get(`${process.env.BACKEND_APP_API_URL}/v1/chat/${friend.user_id}`, {
+      .get(`https://whirlpool-arx.up.railway.app/v1/chat/${friend.user_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -122,7 +122,7 @@ const Main = ({ socket }) => {
 
     await axios
       .put(
-        `${process.env.BACKEND_APP_API_URL}/v1/user/${user.user_id}`,
+        `https://whirlpool-arx.up.railway.app/v1/user/${user.user_id}`,
         formData
       )
       .then((res) => {
@@ -195,7 +195,7 @@ const Main = ({ socket }) => {
     }).then(async (confirm) => {
       if (confirm) {
         axios.put(
-          `${process.env.BACKEND_APP_API_URL}/v1/user/offline/${user.user_id}`
+          `https://whirlpool-arx.up.railway.app/v1/user/offline/${user.user_id}`
         );
         localStorage.removeItem("token");
         localStorage.removeItem("user");
