@@ -25,7 +25,7 @@ const Login = ({ setSocket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`https://whirlpool-arx.up.railway.app/v1/user/login`, loginForm)
+      .post(`https://whirlpool.up.railway.app/v1/user/login`, loginForm)
       .then((res) => {
         const token = res.data.data.token;
         const user = {
@@ -36,7 +36,7 @@ const Login = ({ setSocket }) => {
         };
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        const socket = io(`https://whirlpool-arx.up.railway.app`, {
+        const socket = io(`https://whirlpool.up.railway.app`, {
           query: {
             token: token,
           },

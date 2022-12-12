@@ -13,7 +13,7 @@ const Router = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!socket && token) {
-      const res = io(`https://whirlpool-arx.up.railway.app`, {
+      const res = io(`https://whirlpool.up.railway.app`, {
         query: {
           token: token,
         },
