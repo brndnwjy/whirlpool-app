@@ -40,6 +40,7 @@ const Login = ({ setSocket }) => {
           query: {
             token: token,
           },
+          transports: ["websocket", "polling"] 
         });
         setSocket(socket);
         swal({

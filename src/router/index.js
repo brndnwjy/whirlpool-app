@@ -17,6 +17,7 @@ const Router = () => {
         query: {
           token: token,
         },
+        transports: ["websocket", "polling"] 
       });
       setSocket(res);
     }
