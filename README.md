@@ -142,8 +142,6 @@ Contributions are what make the open source community such an amazing place to b
 ## Related Project
 :rocket: [`Whirlpool (Backend)`](https://github.com/brndnwjy/whirlpool-api)
 
-<!-- :rocket: [`Mamarecipe Web Service`](https://dove-chat.herokuapp.com/) -->
-
-<!-- :rocket: [`Mamarecipe App Demo`](https://dove-chat-fe.vercel.app/login) -->
+:rocket: [`Whirlpool App Demo`](https://whirlpool-app.vercel.app)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
