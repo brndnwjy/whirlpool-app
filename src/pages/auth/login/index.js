@@ -52,6 +52,11 @@ const Login = ({ setSocket }) => {
       })
       .catch((err) => {
         console.log(err);
+        swal({
+          title: "Failed",
+          text: `Make sure your email and password is correct!`,
+          icon: "warning",
+        });
       });
     // dispatch(login(setSocket, loginForm, navigate))
   };

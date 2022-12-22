@@ -44,6 +44,10 @@ export const register = (dataForm, navigate) => async (dispatch) => {
     navigate("/login");
   } catch (error) {
     console.log(error);
+    swal({
+      title: "Failed",
+      icon: "warning",
+    });
     dispatch({ type: "REGISTER_ERROR" });
   }
 };
